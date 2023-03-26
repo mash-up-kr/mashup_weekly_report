@@ -1,0 +1,19 @@
+name: Issuer
+on:
+  schedule:
+    - cron: '0 20 * * 2'
+  workflow_dispatch:
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - uses: rishabhgupta/git-action-issue@v2
+        id: Issue
+        with:
+            token: ${{ secrets.ACTION_TOKEN }}
+            title: ${{ steps.date.outputs.date }} 스프링팀 주간 보고
+            body: 코멘트로 한 일 적어주세요~
+            assignees: 'alertjjm,jongnan,eunjungL,kkkh0712,hocaron'
